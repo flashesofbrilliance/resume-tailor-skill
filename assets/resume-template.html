@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  resume-tailor · print-safe resume template
+  Replace {{PLACEHOLDER}} tokens from competency-model.json. Structure = Exec→Surgical depth ladder.
+  Print discipline baked in: standard @page margins (NOT full-bleed), a per-page bordering frame
+  (position:fixed repeats on every page), glass on screen that FLATTENS for print. Render with
+  render.sh and LOOK at the rasterized pages. Keep prose em-dash-free (comma/colon/period).
+  ATS note: for the upload file, produce a single-column variant — drop the 2-col grids + the
+  telemetry grid, set glyphs as CSS ::before (not literal chars in company names), plain-ASCII phone.
+-->
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NAME}} · Resume · {{TARGET_COMPANY}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f1720;--ink2:#33414f;--ink3:#5b6b7a;--faint:#8a97a4;
+    --line:#dde3ea;--line2:#eef2f6;--paper:#fff;
+    --accent:#0089a8;--steel:#5b7183;--metric:#0089a8;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    background:radial-gradient(1000px 560px at 15% -10%,#e7eef6 0,rgba(231,238,246,0) 60%),#e9eef4;}
+  body{padding:26px 0 60px;}
+  .sheet{width:8.5in;margin:0 auto;padding:0.5in 0.58in;border-radius:14px;
+    background:linear-gradient(168deg,#fff,#f6fafc);box-shadow:0 1px 2px rgba(15,23,32,.05),0 26px 60px -26px rgba(15,23,32,.3);}
+
+  /* depth-ladder section header */
+  .sec{display:flex;align-items:center;gap:11px;margin:9px 0 7px;}
+  .sec .lv{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);white-space:nowrap;}
+  .sec .lv .n{color:var(--faint);margin-right:7px;}
+  .sec .gloss{font-family:var(--mono);font-size:8px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);white-space:nowrap;}
+  .sec .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line),rgba(221,227,234,0));}
+  .sec .dots{display:flex;gap:3px;} .sec .dots i{width:5px;height:5px;border-radius:50%;background:#c7d0da;} .sec .dots i.on{background:var(--accent);}
+
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding-bottom:13px;border-bottom:2px solid var(--ink);}
+  .name{font-size:32px;font-weight:700;letter-spacing:-.024em;line-height:1;text-wrap:balance;}
+  .tagline{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-top:9px;}
+  .target{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:3px;padding:3px 8px;}
+  .contact{text-align:right;font-family:var(--mono);font-size:9.5px;line-height:1.9;color:var(--ink3);white-space:nowrap;}
+  .contact b{color:var(--ink);font-weight:600;}
+  .thesis{font-size:11.5px;line-height:1.66;color:var(--ink2);margin-top:14px;text-wrap:pretty;}
+  .thesis b{color:var(--ink);font-weight:600;}
+
+  .card{position:relative;margin-top:13px;padding:5px 16px 15px;border-radius:12px;
+    background:linear-gradient(158deg,rgba(255,255,255,.62),rgba(247,251,253,.34));
+    backdrop-filter:blur(10px) saturate(1.15);-webkit-backdrop-filter:blur(10px) saturate(1.15);
+    border:1px solid rgba(255,255,255,.85);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 10px 26px -18px rgba(15,23,32,.22);}
+
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:9px 22px;}
+  .pillar{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding-bottom:8px;border-bottom:1px solid var(--line2);}
+  .pillar .pt{font-size:10px;line-height:1.42;color:var(--ink2);text-wrap:balance;} .pillar .pt b{color:var(--ink);font-weight:600;font-size:10.5px;}
+  .pillar .fit{font-family:var(--mono);font-size:7px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);white-space:nowrap;padding-top:3px;}
+
+  .job{margin-bottom:6px;break-inside:avoid;}
+  .job-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .job-co{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.01em;} .job-co .glyph{color:var(--accent);margin-right:7px;font-weight:400;} .job-co .dom{font-weight:500;color:var(--ink3);font-size:10px;}
+  .job-role{font-family:var(--mono);font-size:8.5px;font-weight:500;color:var(--ink3);letter-spacing:.02em;white-space:nowrap;}
+  .job-sum{font-size:10px;line-height:1.5;color:var(--ink2);margin:4px 0;text-wrap:pretty;} .job-sum b{color:var(--ink);font-weight:600;}
+  ul.bul{list-style:none;} ul.bul li{position:relative;padding-left:14px;font-size:10px;line-height:1.48;color:var(--ink2);margin-bottom:1.5px;text-wrap:pretty;}
+  ul.bul li::before{content:"";position:absolute;left:1px;top:6.5px;width:4px;height:4px;border:1px solid var(--accent);border-radius:50%;} ul.bul li b{color:var(--ink);font-weight:600;}
+  .metric{font-family:var(--mono);font-weight:700;color:var(--metric);font-size:9.5px;}
+
+  .skill-row{display:flex;gap:10px;margin-bottom:5px;align-items:baseline;}
+  .skill-k{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);width:118px;flex-shrink:0;padding-top:1px;}
+  .skill-v{font-size:9.5px;line-height:1.5;color:var(--ink2);text-wrap:pretty;}
+
+  /* LIGHT telemetry band (never dark on a light sheet) — optional "receipts" garnish */
+  .telem{background:linear-gradient(165deg,#f5fafc,#e9f3f8);border:1px solid #d3e1ea;border-radius:9px;padding:13px 16px 14px;color:var(--ink2);box-shadow:inset 0 1px 0 #fff,0 8px 20px -16px rgba(15,23,32,.2);}
+  .telem-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;}
+  .telem-top .t{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);} .telem-top .win{font-family:var(--mono);font-size:8.5px;color:var(--faint);}
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;} .stat{border-left:1px solid #d3e1ea;padding-left:10px;} .stat:first-child{border-left:none;padding-left:0;}
+  .stat .n{font-family:var(--mono);font-size:19px;font-weight:700;color:var(--ink);line-height:1;} .stat .k{font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-top:6px;line-height:1.4;}
+
+  .edu-line{display:flex;gap:26px;flex-wrap:wrap;font-size:10px;color:var(--ink2);} .edu-line b{color:var(--ink);font-weight:600;} .edu-line .yr{font-family:var(--mono);font-size:8px;color:var(--faint);}
+  footer{margin-top:14px;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);}
+
+  .page-frame{display:none;}
+  /* ── PRINT: standard margins, per-page frame, glass flattened, clean for ATS ── */
+  @page{size:letter;margin:0.4in;}
+  @media print{
+    html{background:#fff;} body{padding:0;margin:0;}
+    .sheet{width:auto;max-width:none;margin:0;padding:0.26in 0.32in;border-radius:0;background:#fff;box-shadow:none;}
+    .card{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:none;box-shadow:none;border-radius:0;padding:0;margin-top:6px;border-top:1px solid var(--line2);padding-top:6px;}
+    .page-frame{display:block;position:fixed;top:0;left:0;right:0;bottom:0;border:1.4px solid #c2ccd6;border-radius:7px;pointer-events:none;}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  }
+</style>
+</head>
+<body>
+<div class="page-frame"></div>
+<div class="sheet">
+
+  <!-- ══ EXEC ══ -->
+  <header>
+    <div>
+      <div class="name">{{NAME}}</div>
+      <div class="tagline">{{TAGLINE — lead with the JD match, differentiator second}}</div>
+      <div class="target">◎ Target · {{TARGET_ROLE}}</div>
+    </div>
+    <div class="contact">
+      {{LOCATION}}<br><b>{{EMAIL}}</b><br>{{PHONE — plain ASCII, e.g. 203-807-2976}}<br>
+      linkedin.com/in/<b>{{LI}}</b><br>github.com/<b>{{GH}}</b>
+    </div>
+  </header>
+  <p class="thesis">{{THESIS — one honest paragraph, no em-dashes in prose, no self-grades}}</p>
+
+  <!-- ══ 01 STRATEGIC — pillars ranked by jd_relevance ══ -->
+  <section class="card">
+    <div class="sec"><span class="lv"><span class="n">01</span>Strategic</span><span class="gloss">— what I own, ranked for this role</span><span class="rule"></span><span class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></span></div>
+    <div class="pillars">
+      <!-- repeat per top domain; tag word = primary/strong/supporting (NOT a self-scored number) -->
+      <div class="pillar"><span class="pt"><b>{{DOMAIN}}</b> — {{one-line proof}}</span><span class="fit">primary</span></div>
+    </div>
+  </section>
+
+  <!-- ══ 02 OPERATIONAL · EXPERIENCE (reverse-chron; titles/dates EXACT from LinkedIn) ══ -->
+  <section class="card">
+    <div class="sec"><span class="lv"><span class="n">02</span>Operational · Experience</span><span class="gloss">— how it runs</span><span class="rule"></span><span class="dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></div>
+    <div class="job">
+      <div class="job-head"><div class="job-co"><span class="glyph">◈</span> {{COMPANY}} <span class="dom">— {{context}}</span></div><div class="job-role">{{EXACT LINKEDIN TITLE}} · {{YYYY–YYYY}}</div></div>
+      <ul class="bul"><li>{{cited, defensible bullet — metric in <span class="metric">…</span> only if real}}</li></ul>
+    </div>
+    <!-- Select-consulting block (if any) can be its own <section class="card" style="break-inside:avoid;"> to keep header with content -->
+  </section>
+
+  <!-- ══ 03 TACTICAL · SKILLS (put the word 'SKILLS' in the header for ATS) ══ -->
+  <section class="card">
+    <div class="sec"><span class="lv"><span class="n">03</span>Tactical · Skills</span><span class="gloss">— methods &amp; tools</span><span class="rule"></span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
+    <div class="skill-row"><div class="skill-k">{{CATEGORY}}</div><div class="skill-v">{{skills · in · the · user's · own · words — vary from JD to avoid keyword-mirror tell}}</div></div>
+  </section>
+
+  <!-- ══ 04 SURGICAL — receipts (only if backed by documented facts) ══ -->
+  <section class="card">
+    <div class="sec"><span class="lv"><span class="n">04</span>Surgical</span><span class="gloss">— the receipts</span><span class="rule"></span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+    <div class="telem">
+      <div class="telem-top"><div class="t">● {{DOCUMENTED BUILD/OUTPUT TELEMETRY}}</div><div class="win">{{window · scope}}</div></div>
+      <div class="stats"><div class="stat"><div class="n">{{N}}</div><div class="k">{{label}}</div></div></div>
+    </div>
+  </section>
+
+  <!-- ══ EDUCATION & CREDENTIALS (exact issuers — e.g. 'MIT Professional Education (Emeritus)') ══ -->
+  <section class="card">
+    <div class="sec"><span class="lv">Education &amp; Credentials</span><span class="rule"></span></div>
+    <div class="edu-line"><span><b>{{SCHOOL}}</b> — {{degree}} <span class="yr">{{years}}</span></span></div>
+  </section>
+
+  <footer><span>{{NAME}} · {{SITE}}</span><span>Tailored · {{TARGET_ROLE}} · {{YEAR}}</span></footer>
+</div>
+</body>
+</html>

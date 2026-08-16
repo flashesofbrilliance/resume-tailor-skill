@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "resume-tailor",
+  "version": "0.1.0",
+  "description": "Tailor a resume + matching cover letter to a specific role from your real evidence. Honesty-graded (every claim carries its evidence and a verifiability grade), falsifier-gated (refuses to state what it can't defend), lead-with-strengths projected for the target JD, rendered print-safe with an ATS-plain companion, and run through an adversarial pre-send gauntlet.",
+  "author": { "name": "flashesofbrilliance" },
+  "license": "MIT",
+  "repository": "https://github.com/flashesofbrilliance/resume-tailor-skill",
+  "keywords": ["arcs", "claude-code", "skill", "resume", "cover-letter", "job-search", "ats", "honesty", "falsifier"]
+}

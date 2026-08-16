@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "resume-tailor competency SSOT",
+  "description": "Honesty-graded competency model. One source of truth; every render (resume, cover letter, ATS-plain, interactive explorer) reads from it. RULE: nothing is stated on a public artifact unless verifiability is 'documented' or 'self-reported'. Proficiency is a PROVISIONAL hypothesis the falsifier confirms — never asserted as fact.",
+  "type": "object",
+  "required": ["subject", "target_role", "domains"],
+  "additionalProperties": true,
+  "properties": {
+    "subject": { "type": "string" },
+    "generated": { "type": "string", "description": "ISO date" },
+    "honesty_policy": {
+      "type": "object",
+      "description": "Restate the grading contract inline so every reader inherits it.",
+      "properties": {
+        "verifiability_grades": { "type": "object" },
+        "proficiency_scale": { "type": "string" },
+        "rule": { "type": "string" }
+      }
+    },
+    "target_role": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "company": { "type": "string" },
+        "title": { "type": "string" },
+        "req_id": { "type": "string" },
+        "location": { "type": "string" },
+        "comp": { "type": "string" },
+        "jd_keywords": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "domains": { "type": "array", "items": { "$ref": "#/definitions/domain" } },
+    "lead_with_strengths_order": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Domain ids ranked by JD-relevance; the render leads in this order."
+    },
+    "practice_list": {
+      "type": "array",
+      "description": "Falsifier output: where proficiency < the claim the role wants. The user's interview-prep list.",
+      "items": {
+        "type": "object",
+        "required": ["domain", "gap", "priority"],
+        "properties": {
+          "domain": { "type": "string" },
+          "gap": { "type": "string" },
+          "priority": { "enum": ["high", "medium", "low"] }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "domain": {
+      "type": "object",
+      "required": ["id", "name", "jd_relevance", "competencies"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "jd_relevance": { "type": "number", "minimum": 0, "maximum": 100 },
+        "why_leads": { "type": "string" },
+        "levels": {
+          "type": "object",
+          "description": "The depth ladder: executive claim at top, surgical receipt at bottom.",
+          "properties": {
+            "exec": { "type": "string" },
+            "strategic": { "type": "string" },
+            "operational": { "type": "string" },
+            "tactical": { "type": "string" },
+            "surgical": { "type": "string" }
+          }
+        },
+        "competencies": { "type": "array", "items": { "$ref": "#/definitions/competency" } }
+      }
+    },
+    "competency": {
+      "type": "object",
+      "required": ["skill", "type", "evidence", "verifiability", "proficiency_provisional", "confirmed"],
+      "properties": {
+        "skill": { "type": "string" },
+        "type": { "enum": ["hard", "soft", "tacit"] },
+        "evidence": { "type": "string", "description": "The specific engagement/artifact the claim rests on." },
+        "verifiability": {
+          "enum": ["documented", "self-reported", "unverifiable"],
+          "description": "documented = public/inspectable; self-reported = their figure, not independently verified; unverifiable = tacit/subjective (may frame, never state as fact with a number)."
+        },
+        "proficiency_provisional": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "confirmed": { "type": "boolean", "description": "true only after the subject calibrates it via the falsifier. Never assert an unconfirmed score as fact." },
+        "disclosure": {
+          "type": "object",
+          "properties": {
+            "when": { "enum": ["lead", "support", "hold"] },
+            "why": { "type": "string" },
+            "how": { "type": "string" }
+          }
+        },
+        "practice_gap": { "type": "boolean" },
+        "gap_note": { "type": "string" }
+      }
+    }
+  }
+}
