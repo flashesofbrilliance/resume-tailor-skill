@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "resume-tailor",
-  "version": "0.1.0",
-  "description": "Tailor a resume + matching cover letter to a specific role from your real evidence. Honesty-graded (every claim carries its evidence and a verifiability grade), falsifier-gated (refuses to state what it can't defend), lead-with-strengths projected for the target JD, rendered print-safe with an ATS-plain companion, and run through an adversarial pre-send gauntlet.",
+  "version": "0.2.0",
+  "description": "Tailor a resume + matching cover letter to a specific role from your real evidence. Honesty-graded (every claim carries its evidence and a verifiability grade), falsifier-gated (refuses to state what it can't defend), voice-tuned from your own LinkedIn writing, and register-fit to the hiring manager. Surfaces an orthogonal-echo proof point (a shipped artifact of yours that independently solves the target's product problem), leads with strengths for the JD, renders print-safe with an ATS-plain companion, and runs an adversarial pre-send gauntlet.",
   "author": { "name": "flashesofbrilliance" },
   "license": "MIT",
   "repository": "https://github.com/flashesofbrilliance/resume-tailor-skill",

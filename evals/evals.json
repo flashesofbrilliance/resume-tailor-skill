@@ -1,0 +1,18 @@
+{
+  "skill_name": "resume-tailor",
+  "note": "Outputs are subjective (writing + design). Grade qualitatively against references/rubric.md. HARD checks are the honesty floor; any HARD failure fails the run regardless of polish.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Tailor my resume and a matching cover letter to this Technical Product Marketing Manager role at Comet (an open-source LLM-tooling company; product is Opik): <paste JD or URL>. My evidence: my LinkedIn export is in ~/Downloads and my portfolio/public goods are at good.arcs.care. This is going through a third-party recruiter, so keep contact to GitHub only.",
+      "expected_output": "A print-safe designed resume (rendered PDF, pixel-checked), an ATS-plain .txt companion kept in sync on facts, and a matching cover letter. Voice tuned from the LinkedIn export; the hiring manager's register applied if their profile is available. At least one verified orthogonal-echo proof point (a shipped artifact that independently solves the target's product problem), used ONCE at full strength. No unbacked term-of-art. A competency-model.json SSOT with a practice_list of falsifier flags (the interview-prep list).",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Make an honest, defensible resume for this senior data/strategy role from my real evidence (LinkedIn export + a couple of prior resumes). Flag anything I couldn't defend in a reference check as my interview-prep list. I'm applying direct, not through a recruiter.",
+      "expected_output": "Resume + competency-model.json SSOT + a practice_list of falsifier flags. pii_mode=full (real contact, since applying direct). Every claim traces to documented or self-reported evidence; self-reported metrics are labeled, not stated as hard fact. Titles/dates reconciled against the export, not prior resumes.",
+      "files": []
+    }
+  ]
+}
