@@ -1,0 +1,10 @@
+name: resume-tailor
+version: 0.1.0
+description: "Tailor a resume and matching cover letter from user's real evidence. Falsifier-gated, honesty-graded, print-safe."
+author: flashesofbrilliance
+license: MIT
+platforms: [linux, macos, windows]
+metadata:
+  hermes:
+    tags: [arcs, resume, job-search, falsifier, honesty, career, ats]
+    related_skills: [arcs-reading-sequence, arcs-jobs-board-forge]
