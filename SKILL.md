@@ -71,6 +71,31 @@ If the user has an NDA, separate **public facts** (employer AUM, product count �
 out. Mirror what their own public LinkedIn already discloses; do not overshoot past it. Confirm the
 scope with the user; it's their legal call.
 
+### Hybrid-role completeness gate (mandatory for player-coach-shaped JDs)
+A "technical cut" that leans hard into hands-on/IC framing can silently scope OUT real leadership
+competencies that already exist in `competency-model.json` — not because they were false, but
+because they didn't fit the narrative being optimized for. That's a falsifier-pass failure in the
+other direction: not a false claim added, but a true, load-bearing claim dropped, creating a false
+*gap* that reads as real under pressure-testing (a background check can't catch an omission, but a
+hiring panel's "so who did you manage?" will).
+
+**Trigger:** the JD signals a hybrid IC/leadership shape — language like "hands-on," "still codes,"
+"player-coach" alongside "manage," "lead a team," "cross-functional," "1:1s," or an explicit "not a
+pure management role." This is neither a pure-IC nor a pure-manager JD; both axes are being screened.
+
+**Check (run before finalizing the cut, not after):** does `competency-model.json` contain
+leadership/management competencies — team size and composition ever managed, cross-functional scope,
+global/regulatory complexity, stated leadership philosophy — that this cut is scoping out in service
+of the hands-on narrative? If yes, that is a **decision to surface explicitly**, not a default. Name
+it to the user: "this cut drops your leadership scope (team of N, cross-functional, GDPR/global
+launch) — keep it compact-but-present, or cut it fully?" The fix is never "always include everything"
+— a genuinely pure-IC JD should still cut cleanly. The fix is that the drop must be a reviewed
+decision tied to the JD's actual shape, never an automatic side effect of optimizing for one register.
+
+**Default for a confirmed hybrid shape:** keep a compact leadership-scope block (team size/
+composition, global/regulatory launches, operating philosophy) even when the primary narrative is
+hands-on-builder — both axes get real representation, not a forced either/or.
+
 ## Stage 3 — Lead-with-strengths projection
 
 Rank domains by `jd_relevance`. The literal JD match leads; a strong differentiator supports, it
@@ -191,6 +216,21 @@ Honesty holds that saved it: no "LLM engineering" (app-layer only), no PyTorch/T
 (unverified), no adoption claims. Tried-and-cut: interleaved recommendation quotes (crowded the
 section; removed).
 
+## Exemplar — player-coach CTO/EM screen (hybrid-role completeness miss)
+
+Player-coach-shaped role (CTO/Engineering Manager, "6+ years backend, 1-2 years managing engineers...
+1:1s, growth conversations"). The technical-cut resume built for a recruiter screen narrowed hard
+into solo/hands-on framing and dropped real, already-documented leadership scope: cross-functional
+teams of a dozen-plus (engineering/design/business/marketing), a regulation-navigated international
+launch, and dozens of executive-stakeholder demos at a strong pilot-conversion rate. None of it was
+invented after the fact — it existed in the applicant's fuller career record; it had simply been
+scoped out chasing the hands-on narrative. Reading the resulting resume cold looked like a real
+management gap and drove a wrong "this candidate may not clear the management bar" judgment,
+corrected only once the fuller record was checked. Fix applied post-hoc: reframe as moving fluidly
+between three modes (hands-on builder / team lead / executive technical partner), each backed by a
+real example. This is the source of the **Hybrid-role completeness gate** above — the gate exists so
+this check runs before the cut ships, not after a misjudged interview-readiness call.
+
 ## Anti-goals
 
 Do not: assert proficiency numbers as fact; imply distribution (npm/Homebrew) or adoption you can't
@@ -198,3 +238,12 @@ show; borrow a term-of-art (zero-knowledge, OpenTelemetry, RAG) the artifact doe
 in-repo AND live first, especially when the target ships the real thing*; self-grade ("bank-grade",
 "world-class"); inflate one engagement into a specialty; double-count one credential as two issuers;
 or declare "shipped" off a page-count. The quality floor is defensibly-true; the falsifier enforces it.
+
+## Changelog
+
+- **2026-09-14** — Added the Hybrid-role completeness gate (Stage 2) + player-coach CTO/EM
+  exemplar. Source: a real engagement (a recruiter screen for a hybrid CTO/EM role), not a
+  hypothetical — a technical-cut resume dropped real leadership scope while optimizing for a
+  hands-on-builder narrative, creating a false "management gap" that briefly drove a wrong
+  interview-readiness judgment before the fuller career record was checked. Anonymized here:
+  no applicant name, company name, or recruiter identity — only the generalizable pattern.
