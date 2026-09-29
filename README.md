@@ -33,7 +33,6 @@ companion, and runs an adversarial **pre-send gauntlet** before anything ships.
 ## Use
 
 Ask Claude to *"tailor my resume for `<job posting URL>`"* (with your LinkedIn export handy).
-The pre-send gauntlet uses the [`counterpart-gauntlet`](https://github.com/flashesofbrilliance/arcs-v9)
-workflow when available.
+The pre-send gauntlet uses a `counterpart-gauntlet` workflow when one is available (not included here).
 
 MIT.
